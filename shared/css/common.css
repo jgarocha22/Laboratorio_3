@@ -1,0 +1,728 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Montserrat:wght@400;700&display=swap');
+@import './vars.css';
+
+/*----------------------*/
+/*  Estilos Generales   */
+/*----------------------*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+/* Estilo por defecto (modo claro) */
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    background-color: var(--body-bg-color);
+    color: var(--body-text-color);
+    min-height: 100vh;
+    position: relative;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/*----------------------*/
+/*  Modo Oscuro General */
+/*----------------------*/
+.theme-checkbox:checked ~ body,
+body:has(.theme-checkbox:checked) {
+    background-color: var(--body-bg-color-dark);
+    color: var(--body-text-color-dark);
+}
+
+/* Transiciones para elementos en modo oscuro */
+.theme-checkbox:checked ~ body .articulo,
+body:has(.theme-checkbox:checked) .articulo {
+    background-color: var(--body-bg-color-dark);
+    color: var(--body-text-color-dark);
+    box-shadow: 0 2px 10px rgba(87, 87, 87, 0.5);
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.theme-checkbox:checked ~ body .about-me,
+body:has(.theme-checkbox:checked) .about-me {
+    background-color: var(--body-bg-color-dark);
+    color: var(--body-text-color-dark);
+    box-shadow: 0 2px 10px rgba(87, 87, 87, 0.5);
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.theme-checkbox:checked ~ body .noticias h2,
+body:has(.theme-checkbox:checked) .noticias h2,
+.theme-checkbox:checked ~ body .articulo h3,
+body:has(.theme-checkbox:checked) .articulo h3,
+.theme-checkbox:checked ~ body .articulo h4,
+body:has(.theme-checkbox:checked) .articulo h4 {
+    color: #2db8bd;
+    transition: color 0.3s ease;
+}
+
+.theme-checkbox:checked ~ body .highlight,
+body:has(.theme-checkbox:checked) .highlight {
+    background-color: rgba(45, 184, 189, 0.2);
+    color: var(--body-text-color-dark);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.theme-checkbox:checked ~ body .chat-button,
+body:has(.theme-checkbox:checked) .chat-button {
+    box-shadow: 0 4px 6px rgba(87, 87, 87, 0.8);
+    transition: box-shadow 0.3s ease;
+}
+
+/* Modo oscuro para el modal del chat */
+.theme-checkbox:checked ~ body .modal-content,
+body:has(.theme-checkbox:checked) .modal-content {
+    background-color: var(--body-bg-color-dark);
+    color: var(--body-text-color-dark);
+    border-color: var(--form-border-dark);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.theme-checkbox:checked ~ body .modal-header,
+body:has(.theme-checkbox:checked) .modal-header {
+    background-color: var(--form-bg-dark);
+    border-bottom-color: var(--form-border-dark);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.theme-checkbox:checked ~ body .modal-title,
+body:has(.theme-checkbox:checked) .modal-title {
+    color: var(--legend-color-dark);
+    transition: color 0.3s ease;
+}
+
+.theme-checkbox:checked ~ body .modal-body,
+body:has(.theme-checkbox:checked) .modal-body {
+    background-color: var(--body-bg-color-dark);
+    color: var(--body-text-color-dark);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.theme-checkbox:checked ~ body .modal-footer,
+body:has(.theme-checkbox:checked) .modal-footer {
+    background-color: var(--form-bg-dark);
+    border-top-color: var(--form-border-dark);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.theme-checkbox:checked ~ body .btn-close,
+body:has(.theme-checkbox:checked) .btn-close {
+    filter: invert(1);
+    transition: filter 0.3s ease;
+}
+
+/* Estilo de botón de modo oscuro */
+.theme-checkbox {
+    display: none;
+}
+
+.theme-button {
+    position: relative;
+    right: 0;
+    padding: 0.5rem;
+    background: transparent;
+    border: none;
+    border-radius: 2dvh;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.theme-button:hover {
+    background-color: var(--chat-hover-bg);
+    transform: scale(1.2);
+}
+
+.theme-button:active {
+    transform: scale(0.95);
+}
+
+.theme-button img {
+    height: 2.5dvh;
+    width: 2.5dvh;
+    content: url('/Laboratorios/Laboratorio_3/assets/icons/Light-Mode.png');
+    transition: content 0.3s ease;
+}
+
+#theme-toggle:checked ~ .navbar .theme-button img {
+    content: url('/Laboratorios/Laboratorio_3/assets/icons/Dark-Mode.png');
+}
+
+/* Estilo de boton chat */
+.chat-button {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    display: flex;
+    align-items: center;
+    z-index: 100;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--chat-bg-gradient);
+    color: var(--chat-text-color);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.chat-button:hover {
+    background-color: var(--chat-hover-bg);
+    transform: scale(1.1);
+}
+
+.chat-button:active {
+    transform: scale(0.95);
+}
+
+/*----------------------*/
+/*    Responsive        */
+/*----------------------*/
+
+/* Centrado del navbar de Bootstrap en móvil */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        text-align: center;
+    }
+
+    .navbar-collapse .theme-button {
+        margin: 0.5rem auto; /* Centra el botón del tema y le da un margen */
+        display: inline-block; /* Permite que el margen automático funcione correctamente */
+    }
+}
+
+/* Tablets y pantallas medianas (768px y menos) */
+@media screen and (max-width: 768px) {
+    .header-principal h1 {
+        font-size: 2rem;
+    }
+
+    .menu-principal {
+        padding: 0.5rem;
+    }
+
+    .menu-principal ul {
+        gap: 0.5rem;
+        justify-content: space-around;
+    }
+
+    .menu-principal li {
+        margin: 0.3rem;
+    }
+
+    .menu-principal a {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .layout {
+        flex-direction: column;
+    }
+
+    .about-me {
+        width: 100%;
+        margin-bottom: 2rem;
+    }
+
+    .articulo img, .about-me img {
+        width: 100%;
+    }
+
+    .footer-principal {
+        flex-direction: column;
+        padding: 1.5rem;
+    }
+
+    .footer-principal address,
+    .footer-principal .api-seo {
+        flex: none;
+        width: 100%;
+        text-align: center;
+    }
+
+    .footer-principal blockquote {
+        text-align: left;
+        font-size: 0.9rem;
+    }
+
+    .chat-button {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .theme-button {
+        padding: 0.4rem;
+    }
+}
+
+/* Móviles (480px y menos) */
+@media screen and (max-width: 480px) {
+    .header-principal h1 {
+        font-size: 1.5rem;
+    }
+
+    .subtitulo {
+        font-size: 0.9rem;
+    }
+
+    .menu-principal {
+        padding: 0.5rem;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .menu-principal ul {
+        flex-direction: column;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    .menu-principal li {
+        width: 100%;
+        text-align: center;
+    }
+
+    .menu-principal a {
+        display: block;
+        padding: 1rem;
+        width: 100%;
+    }
+
+    .contenido-principal {
+        padding: 0 1rem;
+    }
+
+    .articulo {
+        padding: 1rem;
+    }
+
+    .articulo h3 {
+        font-size: 120%;
+    }
+
+    .articulo h4 {
+        font-size: 110%;
+    }
+
+    .footer-principal {
+        padding: 1rem;
+    }
+
+    .footer-principal h2 {
+        font-size: 1.2rem;
+    }
+
+    .footer-principal h3 {
+        font-size: 0.9rem;
+    }
+
+    .footer-principal blockquote {
+        font-size: 0.85rem;
+        padding-left: 0.5rem;
+    }
+
+    .chat-button {
+        bottom: 0.5rem;
+        right: 0.5rem;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
+
+    .theme-button {
+        position: static;
+        width: 100%;
+        justify-content: center;
+        padding: 1rem;
+    }
+
+    .theme-button img {
+        margin-right: 0.5rem;
+    }
+
+    iframe {
+        width: 100%;
+        height: 250px;
+    }
+
+    body {
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    .header-principal,
+    .menu-principal,
+    .footer-principal {
+        width: 100%;
+        margin: 0;
+        padding: 1rem;
+    }
+}
+
+/* Ajustes para pantallas muy pequeñas (320px y menos) */
+@media screen and (max-width: 320px) {
+    .header-principal h1 {
+        font-size: 1.2rem;
+    }
+
+    .menu-principal {
+        padding: 0.3rem;
+    }
+
+    .menu-principal a {
+        padding: 0.6rem;
+        font-size: 0.85rem;
+    }
+
+    .theme-button {
+        padding: 0.4rem;
+    }
+
+    .chat-button {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.7rem;
+    }
+}
+
+/*----------------------*/
+/*        Header        */
+/*----------------------*/
+
+.header-principal {
+    background: var(--header-bg-gradient);
+    color: var(--header-text-color);
+    padding: 1.5rem;
+    text-align: center;
+    width: 100%;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.header-principal h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-shadow: 3px 3px 1px rgba(0,0,0,0.3);
+        -webkit-animation: focus-in-expand 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: focus-in-expand 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+.subtitulo {
+    font-style: italic;
+    opacity: 0.9;
+    font-weight: 400;
+        -webkit-animation: focus-in-expand 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: focus-in-expand 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+/*----------------------*/
+/*      Navegación      */
+/*----------------------*/
+
+.navbar {
+    background: var(--nav-bg-gradient) !important;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    margin-bottom: 3rem;
+}
+
+.nav-link {
+    color: var(--nav-link-color) !important;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    border-radius: 4px;
+    padding: 0.5rem 1rem !important;
+}
+
+.nav-link:hover {
+    background-color: var(--nav-link-hover-bg);
+}
+
+.navbar-nav {
+    gap: 1rem;
+}
+
+/*----------------------*/
+/* Contenido principal  */
+/*----------------------*/
+
+.contenido-principal {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+.layout {
+    display: flex;
+    gap: 2rem;
+}
+
+.noticias {
+    flex: 3;
+}
+
+.noticias h2 {
+    font-family: 'Montserrat', sans-serif;
+    color: #1e777a;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #2db8bd;
+}
+
+.articulo {
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.articulo h3 {
+    font-family: 'Montserrat', sans-serif;
+    color: #2c3e50;
+    font-size: 150%;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #2db8bd;
+}
+
+.articulo h4 {
+    font-family: 'Montserrat', sans-serif;
+    color: #2c3e50;
+    margin-bottom: 0.8rem;
+    margin-top: 0.8rem;
+    font-size: 120%;
+}
+
+.articulo p {
+    margin: 1.2rem;
+}
+
+.articulo img, .about-me img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.articulo img {
+    width: 80%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.articulo img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.articulo figcaption {
+    font-style: italic;
+    opacity: 0.8;
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.articulo img:hover + figcaption {
+    transform: translateY(20px);
+}
+
+.highlight {
+    background-color: rgba(255, 255, 0, 0.5);
+    color: black;
+    padding: 0.2rem;
+    border-radius: 4px;
+}
+
+.articulo li {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    list-style-position: inside;
+}
+
+/*----------------------*/
+/*       Sobre Mi       */
+/*----------------------*/
+
+.about-me {
+    flex: 1;
+    background-color: #f9f9f9;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    align-self: flex-start;
+    max-height: 800px;
+    max-width: 500px;
+}
+
+.about-me img {
+    width: 80%;
+}
+
+/*----------------------*/
+/*        Footer        */
+/*----------------------*/
+
+.footer-principal {
+    background-color: #10161d;
+    color: white;
+    padding: 2rem;
+    width: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+}
+
+.footer-principal #contacto {
+    flex: 1;
+    text-align: left;
+}
+
+.footer-principal ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 1rem;
+}
+
+.footer-principal li {
+    margin: 0;
+    transition: transform 0.3s ease;
+}
+
+.footer-principal li:hover {
+    transform: scale(1.1);
+}
+
+.footer-principal li:active {
+    transform: scale(0.95);
+}
+
+.footer-principal .api-seo {
+    flex: 2;
+    text-align: left;
+}
+
+.footer-principal h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #32c9ce;
+}
+
+.footer-principal h3 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.footer-principal a {
+    color: #9b59b6;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-principal a:hover {
+    color: #8e44ad;
+    text-decoration: underline;
+}
+
+.footer-principal blockquote {
+    font-style: italic;
+    opacity: 0.9;
+    margin: 1rem 0;
+    padding-left: 1rem;
+    border-left: 3px solid #32c9ce;
+}
+
+.footer-principal dt {
+    color: #32c9ce;
+    font-weight: bold;
+    margin-top: 1rem;
+}
+
+.footer-principal dd {
+    margin-left: 0;
+}
+
+.footer-principal cite {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: #9b59b6;
+}
+
+iframe {
+    max-width: 100%;
+    border: none;
+}
+
+/* Mensaje Toast */
+#custom-toast {
+    display: none;
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    background: #28a745;
+    color: #fff;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    font-weight: bold;
+    z-index: 2000;
+    opacity: 0;
+}
+
+#custom-toast.show {
+    display: block;
+    animation: slideInLeft 0.6s ease-out forwards;
+}
+
+#custom-toast.hide {
+    animation: slideOutRight 0.6s ease-in forwards;
+    display: block !important;
+}
+
+/* Keyframes para animación de entrada desde la izquierda */
+@keyframes slideInLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Keyframes para animación de salida hacia la derecha */
+@keyframes slideOutRight {
+    0% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+}

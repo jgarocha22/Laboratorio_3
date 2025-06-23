@@ -1,0 +1,156 @@
+@import '../../shared/css/vars.css';
+@import '../../shared/css/common.css';
+
+/*----------------------*/
+/*      Contacto        */
+/*----------------------*/
+
+.contacto form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    color: #333;
+    margin: 2rem auto;
+    max-width: 800px;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.contacto h2 {
+    text-align: center;
+}
+
+.contacto fieldset {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.contacto legend {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.contacto label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.contacto input[type="text"],
+.contacto input[type="email"],
+.contacto textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: 'Roboto', sans-serif;
+    resize: none;
+}
+
+.contacto button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--button-text-color);
+    background-color: var(--button-primary-bg);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contacto button:hover {
+    background-color: var(--button-primary-hover-bg);
+}
+
+.contacto button[type="reset"] {
+    background-color: var(--button-secondary-bg);
+    color: var(--button-secondary-text-color);
+}
+
+.contacto button[type="reset"]:hover {
+    background-color: var(--button-secondary-hover-bg);
+}
+
+.contacto button[type="button"] {
+    background-color: var(--button-volver-bg);
+}
+
+.contacto button[type="button"]:hover {
+    background-color: var(--button-volver-hover-bg);
+}
+
+/*----------------------*/
+/*    Modo Oscuro       */
+/*----------------------*/
+
+/* Modo oscuro para el formulario */
+.theme-checkbox:checked ~ body .contacto form,
+body:has(.theme-checkbox:checked) .contacto form {
+    background-color: var(--form-bg-dark);
+    color: var(--body-text-color-dark);
+    border-color: var(--form-border-dark);
+    box-shadow: 0 2px 10px rgba(87, 87, 87, 0.5);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Modo oscuro para fieldset */
+.theme-checkbox:checked ~ body .contacto fieldset,
+body:has(.theme-checkbox:checked) .contacto fieldset {
+    background-color: var(--form-bg-dark);
+    color: var(--body-text-color-dark);
+    border-color: var(--form-border-dark);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Modo oscuro para legend */
+.theme-checkbox:checked ~ body .contacto legend,
+body:has(.theme-checkbox:checked) .contacto legend {
+    color: var(--legend-color-dark);
+    transition: color 0.3s ease;
+}
+
+/* Modo oscuro para labels */
+.theme-checkbox:checked ~ body .contacto label,
+body:has(.theme-checkbox:checked) .contacto label {
+    color: var(--body-text-color-dark);
+    transition: color 0.3s ease;
+}
+
+/* Modo oscuro para inputs y textarea */
+.theme-checkbox:checked ~ body .contacto input[type="text"],
+.theme-checkbox:checked ~ body .contacto input[type="email"],
+.theme-checkbox:checked ~ body .contacto textarea,
+body:has(.theme-checkbox:checked) .contacto input[type="text"],
+body:has(.theme-checkbox:checked) .contacto input[type="email"],
+body:has(.theme-checkbox:checked) .contacto textarea {
+    background-color: var(--input-bg-dark);
+    color: var(--body-text-color-dark);
+    border-color: var(--input-border-dark);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Modo oscuro para inputs y textarea en focus */
+.theme-checkbox:checked ~ body .contacto input[type="text"]:focus,
+.theme-checkbox:checked ~ body .contacto input[type="email"]:focus,
+.theme-checkbox:checked ~ body .contacto textarea:focus,
+body:has(.theme-checkbox:checked) .contacto input[type="text"]:focus,
+body:has(.theme-checkbox:checked) .contacto input[type="email"]:focus,
+body:has(.theme-checkbox:checked) .contacto textarea:focus {
+    border-color: var(--input-focus-border-dark);
+    box-shadow: 0 0 0 0.2rem var(--input-focus-shadow-dark);
+}
+
+/* Modo oscuro para radio buttons */
+.theme-checkbox:checked ~ body .contacto input[type="radio"],
+body:has(.theme-checkbox:checked) .contacto input[type="radio"] {
+    accent-color: var(--radio-accent-dark);
+}
