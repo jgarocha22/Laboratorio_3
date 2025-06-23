@@ -1,6 +1,6 @@
 # Mi Revista Digital - Laboratorio 3
 
-## 🌐 Acceder de manera Web
+## 🌐 Acceder la versión Web
 
 - Visitar la versión Web [https://jgarocha22.github.io/Laboratorio_3](https://jgarocha22.github.io/Laboratorio_3)
 
