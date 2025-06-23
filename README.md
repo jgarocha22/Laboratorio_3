@@ -1,5 +1,9 @@
 # Mi Revista Digital - Laboratorio 3
 
+## 🌐 Acceder de manera Web
+
+- Visitar la versión Web [https://jgarocha22.github.io/Laboratorio_3](https://jgarocha22.github.io/Laboratorio_3)
+
 ## 📰 Descripción del Proyecto
 
 **Mi Revista Digital** es una revista web moderna sobre juegos y tecnología que implementa las mejores prácticas de desarrollo web frontend. El proyecto demuestra el uso de HTML5 semántico, CSS3 avanzado con variables y JavaScript moderno para crear una experiencia de usuario interactiva y responsive.
@@ -65,7 +69,7 @@
    - Abrir `index.html` directamente en el navegador
 
 3. **Acceder al sitio**
-   - Visitar la versión Web [https://jgarocha22.github.io/Laboratorio_3/](https://jgarocha22.github.io/Laboratorio_3)
+   - Visitar la versión Web [https://jgarocha22.github.io/Laboratorio_3](https://jgarocha22.github.io/Laboratorio_3)
    - O utilizando la extensión de Visual Studio `Live Server` para el servidor local
 
 ## 📁 Estructura del Proyecto
