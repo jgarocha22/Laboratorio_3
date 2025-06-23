@@ -65,7 +65,7 @@
    - Abrir `index.html` directamente en el navegador
 
 3. **Acceder al sitio**
-   - Visitar con github Pages al siguiente link ``
+   - Visitar con github Pages al siguiente link `https://jgarocha22.github.io/Laboratorio_3/`
    - O utilizando la extensión de Visual Studio `Live Server` para el servidor local
 
 ## 📁 Estructura del Proyecto
