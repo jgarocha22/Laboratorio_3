@@ -1,7 +1,7 @@
 /*------------------------------------*/
 /* Mensaje Toast cuando se envia formulario */
 /*------------------------------------*/
-function mostrarToast(mensaje, type = 'success') {
+function mostrarToast(mensaje, type = 'success', duration = 3000) {
     const toastDiv = document.getElementById('custom-toast');
     if (toastDiv) {
         toastDiv.textContent = mensaje;
@@ -11,21 +11,25 @@ function mostrarToast(mensaje, type = 'success') {
         // Cambiar el color de fondo según el tipo
         if (type === 'error') {
             toastDiv.style.background = '#dc3545'; // Rojo para errores
-        } else {
+        } else if (type === 'success') {
             toastDiv.style.background = '#28a745'; // Verde para éxito
+        } else if(type === 'reset'){
+            toastDiv.style.background = '#007bff'; // Azul para reset
         }
 
+        // Forzar reflow para reiniciar animaciones
+        void toastDiv.offsetWidth;
         toastDiv.classList.add('show');
+        toastDiv.style.display = 'block';
         
         setTimeout(() => {
             toastDiv.classList.remove('show');
             toastDiv.classList.add('hide');
-            
             setTimeout(() => {
                 toastDiv.style.display = 'none';
                 toastDiv.classList.remove('hide');
             }, 600);
-        }, 3000);
+        }, duration);
     }
 }
 
@@ -35,6 +39,11 @@ function mostrarToast(mensaje, type = 'success') {
 
 async function handleFormSubmit(event, formType) {
     event.preventDefault();
+    if(formType === 'contactSubmissions'){
+        mostrarToast('¡Enviado Exitosamente!', 'success', 3000);
+    } else {
+        mostrarToast('¡Cambios Guardado Exitosamente!', 'success', 3000);
+    }
     const form = event.target;
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
@@ -48,7 +57,7 @@ async function handleFormSubmit(event, formType) {
     });
 
     if (!hasValidData) {
-        mostrarToast('El formulario no puede estar vacío.', 'error');
+        mostrarToast('El formulario no puede estar vacío.', 'error', 3000);
         return;
     }
 
@@ -74,12 +83,12 @@ async function handleFormSubmit(event, formType) {
 
         console.log(`Respuesta de ${formType} guardada:`, responseData);
         
-        mostrarToast('¡Enviado Exitosamente!');
+        mostrarToast('¡Enviado Exitosamente!', 'success', 3000);
         form.reset();
 
     } catch (error) {
         console.error('Error al enviar el formulario:', error);
-        mostrarToast('Error al enviar. Intenta de nuevo.', 'error');
+        mostrarToast('Error al enviar. Intenta de nuevo.', 'error', 3000);
     }
 }
 
@@ -91,11 +100,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('form-contacto');
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => handleFormSubmit(e, 'contactSubmissions'));
+        contactForm.addEventListener('reset', function(e) {
+            setTimeout(() => {
+                mostrarToast('Formulario Reiniciado Exitosamente', 'reset', 2000);
+            }, 50);
+        });
     }
 
     const configForm = document.getElementById('form-configuracion');
     if (configForm) {
         configForm.addEventListener('submit', (e) => handleFormSubmit(e, 'configSubmissions'));
+        configForm.addEventListener('reset', function(e) {
+            setTimeout(() => {
+                mostrarToast('Formulario Reiniciado Exitosamente', 'reset', 2000);
+            }, 50);
+        });
     }
 
     /*-----------------------------------*/
