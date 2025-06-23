@@ -146,12 +146,12 @@ body:has(.theme-checkbox:checked) .btn-close {
 .theme-button img {
     height: 2.5dvh;
     width: 2.5dvh;
-    content: url('/Laboratorios/Laboratorio_3/assets/icons/Light-Mode.png');
+    content: url('/assets/icons/Light-Mode.png');
     transition: content 0.3s ease;
 }
 
 #theme-toggle:checked ~ .navbar .theme-button img {
-    content: url('/Laboratorios/Laboratorio_3/assets/icons/Dark-Mode.png');
+    content: url('/assets/icons/Dark-Mode.png');
 }
 
 /* Estilo de boton chat */
