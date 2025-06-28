@@ -1,23 +1,24 @@
-/*------------------------------------*/
+const API_URL = 'https://jsonplaceholder.typicode.com/posts';
+
+
+/*------------------------------------------*/
 /* Mensaje Toast cuando se envia formulario */
-/*------------------------------------*/
+/*------------------------------------------*/
 function mostrarToast(mensaje, type = 'success', duration = 3000) {
     const toastDiv = document.getElementById('custom-toast');
     if (toastDiv) {
         toastDiv.textContent = mensaje;
-        toastDiv.style.display = 'none'; // Reset display
-        toastDiv.classList.remove('show', 'hide'); // Reset classes
+        toastDiv.style.display = 'none';
+        toastDiv.classList.remove('show', 'hide');
         
-        // Cambiar el color de fondo según el tipo
         if (type === 'error') {
-            toastDiv.style.background = '#dc3545'; // Rojo para errores
+            toastDiv.style.background = '#dc3545';
         } else if (type === 'success') {
-            toastDiv.style.background = '#28a745'; // Verde para éxito
+            toastDiv.style.background = '#28a745';
         } else if(type === 'reset'){
-            toastDiv.style.background = '#007bff'; // Azul para reset
+            toastDiv.style.background = '#007bff';
         }
 
-        // Forzar reflow para reiniciar animaciones
         void toastDiv.offsetWidth;
         toastDiv.classList.add('show');
         toastDiv.style.display = 'block';
@@ -34,92 +35,163 @@ function mostrarToast(mensaje, type = 'success', duration = 3000) {
 }
 
 /*--------------------------------*/
-/* Envio de formularios con fetch */
+/* Clase para manejar formularios */
 /*--------------------------------*/
-
-async function handleFormSubmit(event, formType) {
-    event.preventDefault();
-    if(formType === 'contactSubmissions'){
-        mostrarToast('¡Enviado Exitosamente!', 'success', 3000);
-    } else {
-        mostrarToast('¡Cambios Guardado Exitosamente!', 'success', 3000);
-    }
-    const form = event.target;
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
-
-    // Validación mejorada para diferentes tipos de valores
-    const hasValidData = Object.values(data).some(value => {
-        if (value === null || value === undefined) return false;
-        if (typeof value === 'string') return value.trim() !== '';
-        if (value instanceof File) return value.size > 0;
-        return true;
-    });
-
-    if (!hasValidData) {
-        mostrarToast('El formulario no puede estar vacío.', 'error', 3000);
-        return;
+class FormManager {
+    constructor() {
+        this.forms = new Map();
     }
 
-    try {
-        const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
+    registerForm(formId, storageKey) {
+        this.forms.set(formId, {
+            storageKey: storageKey
         });
+    }
 
-        if (!response.ok) {
-            throw new Error(`Error en la petición: ${response.statusText}`);
+    // Método para obtener todas las submisiones de un formulario
+    getSubmissions(formId) {
+        const formData = this.forms.get(formId);
+        if (formData) {
+            return JSON.parse(localStorage.getItem(formData.storageKey)) || [];
         }
+        return [];
+    }
 
-        const responseData = await response.json();
-        
-        // Guardar en localStorage
-        const submissions = JSON.parse(localStorage.getItem(formType)) || [];
-        submissions.push(responseData);
-        localStorage.setItem(formType, JSON.stringify(submissions));
+    // Método para limpiar todas las submisiones de un formulario
+    clearSubmissions(formId) {
+        const formData = this.forms.get(formId);
+        if (formData) {
+            localStorage.removeItem(formData.storageKey);
+        }
+    }
 
-        console.log(`Respuesta de ${formType} guardada:`, responseData);
-        
-        mostrarToast('¡Enviado Exitosamente!', 'success', 3000);
-        form.reset();
-
-    } catch (error) {
-        console.error('Error al enviar el formulario:', error);
-        mostrarToast('Error al enviar. Intenta de nuevo.', 'error', 3000);
+    // Método para guardar submisión
+    saveSubmission(formId, data) {
+        const formData = this.forms.get(formId);
+        if (formData) {
+            const submissions = JSON.parse(localStorage.getItem(formData.storageKey)) || [];
+            submissions.push(data);
+            localStorage.setItem(formData.storageKey, JSON.stringify(submissions));
+        }
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    /*--------------------------*/
-    /* Eventos de Formularios   */
-    /*--------------------------*/
+/*-------------------------------*/
+/* Listener para los Formularios */
+/*-------------------------------*/
 
+document.addEventListener('DOMContentLoaded', function() {
+    const formManager = new FormManager();
+    
+    // Registrar formularios
+    formManager.registerForm('form-contacto', 'contactSubmissions');
+    formManager.registerForm('form-configuracion', 'configSubmissions');
+
+    // Event listener para formulario de contacto
     const contactForm = document.getElementById('form-contacto');
     if (contactForm) {
-        contactForm.addEventListener('submit', (e) => handleFormSubmit(e, 'contactSubmissions'));
-        contactForm.addEventListener('reset', function(e) {
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+
+            const hasValidData = Object.values(data).some(value => {
+                if (value === null || value === undefined) return false;
+                if (typeof value === 'string') return value.trim() !== '';
+                if (value instanceof File) return value.size > 0;
+                return true;
+            });
+
+            if (!hasValidData) {
+                mostrarToast('El formulario no puede estar vacío.', 'error', 3000);
+                return;
+            }
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error en la petición: ${response.statusText}`);
+                }
+
+                const responseData = await response.json();
+                formManager.saveSubmission('form-contacto', responseData);
+                
+                console.log('Respuesta de contacto guardada:', responseData);
+                mostrarToast('¡Enviado Exitosamente!', 'success', 3000);
+                e.target.reset();
+
+            } catch (error) {
+                console.error('Error al enviar el formulario:', error);
+                mostrarToast('Error al enviar. Intenta de nuevo.', 'error', 3000);
+            }
+        });
+
+        contactForm.addEventListener('reset', (e) => {
             setTimeout(() => {
                 mostrarToast('Formulario Reiniciado Exitosamente', 'reset', 2000);
             }, 50);
         });
     }
 
+    // Event listener para formulario de configuración
     const configForm = document.getElementById('form-configuracion');
     if (configForm) {
-        configForm.addEventListener('submit', (e) => handleFormSubmit(e, 'configSubmissions'));
-        configForm.addEventListener('reset', function(e) {
+        configForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+
+            const hasValidData = Object.values(data).some(value => {
+                if (value === null || value === undefined) return false;
+                if (typeof value === 'string') return value.trim() !== '';
+                if (value instanceof File) return value.size > 0;
+                return true;
+            });
+
+            if (!hasValidData) {
+                mostrarToast('El formulario no puede estar vacío.', 'error', 3000);
+                return;
+            }
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error en la petición: ${response.statusText}`);
+                }
+
+                const responseData = await response.json();
+                formManager.saveSubmission('form-configuracion', responseData);
+                
+                console.log('Respuesta de configuración guardada:', responseData);
+                mostrarToast('¡Cambios Guardados Exitosamente!', 'success', 3000);
+                e.target.reset();
+
+            } catch (error) {
+                console.error('Error al enviar el formulario:', error);
+                mostrarToast('Error al enviar. Intenta de nuevo.', 'error', 3000);
+            }
+        });
+
+        configForm.addEventListener('reset', (e) => {
             setTimeout(() => {
                 mostrarToast('Formulario Reiniciado Exitosamente', 'reset', 2000);
             }, 50);
         });
     }
-
-    /*-----------------------------------*/
-    /*  Tema del sitio web (Modo oscuro) */
-    /*-----------------------------------*/
 
     const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle) {
